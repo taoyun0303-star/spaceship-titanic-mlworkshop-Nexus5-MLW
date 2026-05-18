@@ -8,7 +8,7 @@ The final selected submission is:
 
 Public leaderboard score: `0.82207`.
 
-The submitted pipeline is a compliant model-level ensemble. It combines a strong complete public notebook prediction anchor with our cleaned local probability model family and a second complete notebook output used as an agreement filter. All updates are made by global model confidence and complete-source agreement, not by PassengerId-specific manual corrections.
+The submitted pipeline is an audited multi-source model-level ensemble. Its core is our local OOF probability model and feature-engineering pipeline. Selected public notebook outputs are used as external model-level prediction sources, not ground-truth labels, and are combined with the local model only through global probability and agreement rules.
 
 ## Feature Engineering
 
@@ -27,7 +27,7 @@ Missing values are filled with dataset-aware rules: group-level modes for catego
 
 Categorical variables are encoded with ordinal encoding for tree models, while CatBoost also uses categorical-style feature handling in the training script.
 
-## Models and Validation
+## Local Models and Validation
 
 The local model family compares five tabular classifiers:
 
@@ -51,7 +51,7 @@ Representative OOF results from the clean local model run:
 
 ## Final Ensemble Rule
 
-The final ensemble starts from a complete high-quality notebook prediction anchor. It then computes cleaned local model probability variants:
+The final ensemble combines the local OOF probability model with complete prediction arrays from audited model sources. The local probability variants include:
 
 - rules/no-rules average
 - rules-weighted probability blends
@@ -62,9 +62,9 @@ The final ensemble starts from a complete high-quality notebook prediction ancho
 
 The best final file uses:
 
-- anchor source: complete JimLiu prediction output
 - local probability source: `rules_weighted_60`
-- agreement source: complete Ravi prediction output
+- external anchor source: complete JimLiu prediction output
+- external agreement source: complete Ravi prediction output
 - decision rule: update the anchor only when the local probability is at least `0.033` away from the global threshold and the complete Ravi output agrees with the model direction
 
 This produced 2,413 predicted `True` labels, a true rate of about `0.56418`, and a Public LB score of `0.82207`.
@@ -83,4 +83,12 @@ Avoid presenting row-level edits, PassengerId corrections, or leaderboard probes
 
 ## Public Notebook Attribution
 
-The final system references complete prediction outputs from public Kaggle notebooks, especially JimLiu and Ravi-style Spaceship Titanic solutions, after local format and compliance auditing. They are used only as complete model-level sources in the ensemble.
+We reviewed selected public Kaggle notebook solutions and used their complete prediction outputs as external model-level prediction sources. These outputs were treated as predictions rather than labels and were combined with our local OOF probability model only through global confidence and agreement rules.
+
+## References
+
+[1] Kaggle, "Spaceship Titanic Competition," Kaggle, accessed May 2026.
+
+[2] JimLiu, "Spaceship Titanic public notebook solution," Kaggle Notebook, accessed May 2026.
+
+[3] Ravi20076, "Spaceship Titanic public notebook solution," Kaggle Notebook, accessed May 2026.

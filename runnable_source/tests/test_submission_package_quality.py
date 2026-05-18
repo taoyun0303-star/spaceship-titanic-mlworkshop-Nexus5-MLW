@@ -30,3 +30,22 @@ def test_no_local_absolute_paths_in_package_docs():
         if drive_marker in text or users_marker in text:
             offenders.append(str(path.relative_to(ROOT)))
     assert offenders == []
+
+
+def test_method_wording_is_balanced_and_attributed():
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    method = (ROOT / "docs" / "final_method_summary.md").read_text(encoding="utf-8")
+    combined = readme + "\n" + method
+
+    assert "public notebook outputs are used as external model-level prediction sources" in combined
+    assert "not ground-truth labels" in combined
+    assert "local OOF probability model" in combined
+    assert "References" in method
+    assert "JimLiu" in method
+    assert "Ravi" in method
+
+
+def test_readme_uses_correct_chinese_output_path():
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    assert "runnable_source\\04_实验输出\\v124_v120_refinement_nohardcode" in readme
+    assert "瀹為獙" not in readme
