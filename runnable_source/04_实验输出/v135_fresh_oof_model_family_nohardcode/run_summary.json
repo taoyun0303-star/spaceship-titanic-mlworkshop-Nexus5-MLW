@@ -1,0 +1,27 @@
+{
+  "run_dir": "04_\u5b9e\u9a8c\u8f93\u51fa/v135_fresh_oof_model_family_nohardcode",
+  "smoke": true,
+  "n_train": 8693,
+  "n_test": 4277,
+  "n_features": 43,
+  "categorical_features": [
+    "HomePlanet",
+    "CryoSleep",
+    "Destination",
+    "VIP",
+    "CabinDeck",
+    "CabinSide",
+    "CabinNumBin",
+    "Surname",
+    "AgeBand",
+    "HomeDest",
+    "DeckSide",
+    "HomeDeck",
+    "DestDeck"
+  ],
+  "n_models": 5,
+  "n_candidates": 3,
+  "all_valid": true,
+  "compliance": "complete model outputs and global OOF probability rules only; no PassengerId hardcoding; no leaderboard-derived row fixes",
+  "elapsed_seconds": 10.515
+}

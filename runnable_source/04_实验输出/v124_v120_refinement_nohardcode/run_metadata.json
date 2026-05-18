@@ -1,0 +1,16 @@
+{
+  "best82066_reference": "04_实验输出\\v120_nohardcode_candidate_sweep\\submission_v120_jimliu_rules_norules_avg_ravi_agree_margin_0p045.csv",
+  "probability_sources": [
+    "blend_rn70_gbdt30",
+    "blend_rn80_gbdt20",
+    "blend_rn90_gbdt10",
+    "gbdt_avg",
+    "norules_weighted_55",
+    "rules_norules_avg",
+    "rules_weighted_55",
+    "rules_weighted_60",
+    "tree_all_avg"
+  ],
+  "n_candidates": 123,
+  "compliance": "all v124 candidates are full model-level outputs from global thresholds and complete-model agreement"
+}

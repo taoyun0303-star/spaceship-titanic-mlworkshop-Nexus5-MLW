@@ -1,0 +1,4 @@
+file,valid,reason
+submission_v135_01_v135_v110_blend65_thr_0p475.csv,True,ok
+submission_v135_02_v135_stack_v110_blend70_thr_0p453.csv,True,ok
+submission_v135_03_v135_logistic_stack_thr_0p528.csv,True,ok

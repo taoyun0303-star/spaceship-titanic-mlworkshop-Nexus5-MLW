@@ -1,0 +1,4 @@
+file,rank,family,oof_accuracy,threshold,positive_rate,true_count,compliance
+submission_v135_01_v135_v110_blend65_thr_0p475.csv,1,v135_v110_blend65,0.8130679857356494,0.475,0.5447743745616086,2330,complete model outputs and global OOF probability rules only; no PassengerId hardcoding; no leaderboard-derived row fixes
+submission_v135_02_v135_stack_v110_blend70_thr_0p453.csv,2,v135_stack_v110_blend70,0.8120326699643391,0.4525,0.5564648117839607,2380,complete model outputs and global OOF probability rules only; no PassengerId hardcoding; no leaderboard-derived row fixes
+submission_v135_03_v135_logistic_stack_thr_0p528.csv,3,v135_logistic_stack,0.8088116875647072,0.5275000000000001,0.5111059153612345,2186,complete model outputs and global OOF probability rules only; no PassengerId hardcoding; no leaderboard-derived row fixes

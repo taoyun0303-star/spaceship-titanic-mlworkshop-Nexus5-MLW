@@ -1,0 +1,17 @@
+{
+  "elapsed_seconds": 219.938246011734,
+  "models": [
+    "extra_trees",
+    "hist_gb",
+    "xgb",
+    "lgb",
+    "cat"
+  ],
+  "cv_accuracy": 0.8173242839065915,
+  "threshold": 0.5025,
+  "stack_weight": 0.8,
+  "xgboost_available": true,
+  "lightgbm_available": true,
+  "catboost_available": true,
+  "compliance": "No embedded public-label override, bitstring, PassengerId rule, single-point probe, or manual flip is used."
+}
