@@ -7,6 +7,12 @@ ROOT = Path(__file__).resolve().parents[2]
 RUNNABLE_ROOT = ROOT / "runnable_source"
 
 
+def first_prefixed_dir(root: Path, prefix: str) -> Path:
+    matches = sorted(path for path in root.iterdir() if path.is_dir() and path.name.startswith(prefix))
+    assert matches, f"missing directory starting with {prefix}"
+    return matches[0]
+
+
 def test_readme_contains_real_github_link():
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     assert "https://github.com/taoyun0303-star/spaceship-titanic-mlworkshop-Nexus5-MLW" in readme
@@ -40,9 +46,12 @@ def test_method_wording_is_balanced_and_attributed():
     method = (ROOT / "docs" / "final_method_summary.md").read_text(encoding="utf-8")
     combined = readme + "\n" + method
 
-    assert "Selected external prediction sources are used only as additional ensemble-level support signals" in combined
-    assert "rather than labels or direct replacements" in combined
-    assert "local OOF probability model" in combined
+    assert "two-stage" in combined.lower()
+    assert "0.81318" in combined
+    assert "submission_round1_independent_local_ensemble_0p81318.csv" in combined
+    assert "external prediction sources are a material part of the final consensus layer" in combined.lower()
+    assert "not as labels, direct row replacements" in combined
+    assert "local/reference prediction system" in combined
     assert "References" in method
     assert "JimLiu" in method
     assert "Ravi" in method
@@ -50,25 +59,43 @@ def test_method_wording_is_balanced_and_attributed():
     assert "ensemble robustness" in combined
     assert "uncertainty analysis" in combined
     assert "cross-model consensus" in combined
-    assert "0.81318" in combined
     assert "0.82277" in combined
 
 
 def test_readme_uses_final_v132_output_path():
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
-    assert "runnable_source\\04_实验输出\\final_model_level_ensemble_0p82277" in readme
+    assert "runnable_source\\04_" in readme
+    assert "final_model_level_ensemble_0p82277" in readme
     assert "0p82207" not in readme
 
 
+def test_round1_independent_local_submission_is_packaged_and_valid():
+    data_dir = first_prefixed_dir(RUNNABLE_ROOT, "02_")
+    output_dir = first_prefixed_dir(RUNNABLE_ROOT, "04_")
+    sample = pd.read_csv(data_dir / "sample_submission.csv")
+    local_path = (
+        output_dir
+        / "round1_independent_local_ensemble_0p81318"
+        / "submission_round1_independent_local_ensemble_0p81318.csv"
+    )
+    local = pd.read_csv(local_path)
+
+    assert list(local.columns) == ["PassengerId", "Transported"]
+    assert len(local) == len(sample)
+    assert local["PassengerId"].astype(str).equals(sample["PassengerId"].astype(str))
+    assert set(local["Transported"].astype(str).str.lower()).issubset({"true", "false"})
+
+
 def test_final_submission_matches_reproducible_v132_output():
+    data_dir = first_prefixed_dir(RUNNABLE_ROOT, "02_")
+    output_dir = first_prefixed_dir(RUNNABLE_ROOT, "04_")
     final_path = ROOT / "final_submission" / "submission_best_0p82277.csv"
     generated_path = (
-        RUNNABLE_ROOT
-        / "04_实验输出"
+        output_dir
         / "final_model_level_ensemble_0p82277"
         / "submission_final_model_ensemble_0p82277.csv"
     )
-    sample_path = RUNNABLE_ROOT / "02_数据与特征" / "sample_submission.csv"
+    sample_path = data_dir / "sample_submission.csv"
 
     final = pd.read_csv(final_path)
     generated = pd.read_csv(generated_path)
@@ -81,9 +108,9 @@ def test_final_submission_matches_reproducible_v132_output():
 
 
 def test_v132_summary_contains_no_passengerid_listing():
+    output_dir = first_prefixed_dir(RUNNABLE_ROOT, "04_")
     summary_path = (
-        RUNNABLE_ROOT
-        / "04_实验输出"
+        output_dir
         / "final_model_level_ensemble_0p82277"
         / "submission_summary.csv"
     )

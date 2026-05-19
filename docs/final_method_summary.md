@@ -8,11 +8,16 @@ The final selected submission is:
 
 Public leaderboard score: `0.82277`.
 
-The submitted pipeline is an audited model-level ensemble. Its core is our local OOF probability model and feature-engineering pipeline. The local model family provides the main explainable modeling foundation and reached a representative public score around `0.81318`; the final ensemble improved the submitted score to `0.82277`. Selected external prediction sources are used only as additional ensemble-level support signals rather than labels or direct replacements.
+The project is best described as a two-stage modeling process. In Round 1, we built an independent local tabular ensemble. The best confirmed local-only file is `submission_round1_independent_local_ensemble_0p81318.csv`, with Public LB `0.81318`. In Round 2, we added an audited hybrid model-level consensus refinement layer. The final `0.82277` result comes from combining the local/reference prediction system with selected complete external prediction sources through global agreement rules. These external sources are a material part of the final consensus layer, but they are used only as complete prediction arrays, not as labels, direct row replacements, or PassengerId-level rules.
 
 ## Model System Highlights
 
-For the report and presentation, the model system can be introduced as a layered ensemble:
+For the report and presentation, introduce the work as a timeline:
+
+1. `Round 1 - Independent local ensemble`: build our own feature engineering, local models, OOF validation, and voting ensemble. Best local-only Public LB: `0.81318`.
+2. `Round 2 - Consensus refinement`: add selected public complete prediction sources as model-level signals and apply global disagreement/meta-voting rules. Final Public LB: `0.82277`.
+
+The model system can then be introduced as a layered ensemble:
 
 - `XGBoost`: gradient-boosting tree model used to capture non-linear feature interactions.
 - `LightGBM`: efficient GBDT model that provides a complementary tree-based probability estimate.
@@ -22,7 +27,7 @@ For the report and presentation, the model system can be introduced as a layered
 
 The last step is not a manual correction stage. It is a model-level fusion stage with three ideas:
 
-1. `Ensemble`: combine several model families and complete prediction sources.
+1. `Ensemble`: combine several local model families and complete prediction sources.
 2. `Disagreement analysis`: compare the stable rule/probability base prediction with other complete model outputs and focus only on high-consensus disagreements.
 3. `Meta voting`: use a second-level 6/7 vote across complete prediction arrays. The rule is global and source-level, so it does not depend on PassengerId lists or row-by-row probing.
 
@@ -36,9 +41,26 @@ Report/PPT keywords to emphasize:
 - `OOF validation`
 - `consensus-guided refinement`
 
+## Round 1 Independent Local Ensemble
+
+The strongest local-only route in this package is the Round 1 independent local ensemble:
+
+- Script: `runnable_source/03_代码/01_训练管线/build_round1_independent_local_ensemble.py`
+- Output: `runnable_source/04_实验输出/round1_independent_local_ensemble_0p81318/submission_round1_independent_local_ensemble_0p81318.csv`
+- Public LB: `0.81318`
+
+This route uses 64 engineered tabular features and a vote across four locally trained model outputs:
+
+- XGBoost
+- LightGBM
+- CatBoost trained on engineered numeric features
+- CatBoost trained with native categorical handling
+
+An MLP branch is also trained and compared in this stage, but the selected local submission uses the more stable `2 of 4` tree/CatBoost vote.
+
 ## Feature Engineering
 
-The main local probability model uses 43 engineered features. These features can be grouped as follows:
+Across the local modeling work, the feature engineering focuses on passenger structure, cabin structure, family/name information, demographics, service spending, spending transformations, and task-specific interactions. The compact clean local model artifact uses 43 engineered features, while the Round 1 independent local ensemble uses a larger 64-feature set. These features can be grouped as follows:
 
 - Passenger group structure: group id, group member index, group size, solo passenger indicator.
 - Cabin structure: cabin deck, cabin number, cabin side, deck-side interaction, cabin zone.
@@ -63,17 +85,19 @@ The local model family compares five tabular classifiers:
 - LightGBM
 - CatBoost
 
-Training uses two random seeds and 5-fold stratified cross-validation. For each model family, the pipeline stores out-of-fold probabilities, test probabilities, fold accuracy, AUC, and log loss. A logistic regression stacker is trained on the OOF probability matrix, and global thresholds are selected from validation performance only.
+The full training design uses multiple random seeds and stratified cross-validation. For each model family, the pipeline stores out-of-fold probabilities, test probabilities, fold accuracy, AUC, and log loss. A logistic regression stacker is trained on the OOF probability matrix, and global thresholds are selected from validation performance only.
 
-Representative OOF results from the clean local model run:
+Representative OOF results from the compact clean local artifact included in this package:
 
 | Model | OOF Accuracy | AUC | Log Loss |
 |---|---:|---:|---:|
-| CatBoost | 0.81353 | 0.90471 | 0.38515 |
-| LightGBM | 0.80996 | 0.90189 | 0.38798 |
-| HistGradientBoosting | 0.80904 | 0.90190 | 0.38670 |
-| XGBoost | 0.80841 | 0.90267 | 0.38458 |
-| ExtraTrees | 0.80473 | 0.89359 | 0.40914 |
+| HistGradientBoosting | 0.80709 | 0.89806 | 0.39876 |
+| LightGBM | 0.80571 | 0.89619 | 0.40548 |
+| ExtraTrees | 0.80433 | 0.88903 | 0.41698 |
+| CatBoost | 0.79949 | 0.88581 | 0.42886 |
+| XGBoost | 0.79788 | 0.88372 | 0.43716 |
+
+The compact clean local artifact is kept as an additional reproducible validation record. The main local-only score reported in the project timeline is the confirmed Round 1 independent local ensemble score: `0.81318`.
 
 ## Deep Learning Side Experiment
 
@@ -85,15 +109,19 @@ The deep learning branch is documented in `deep_learning_branch/` and is used in
 
 ## Final Ensemble Rule
 
-The final ensemble uses complete-source agreement, which is the implementation of the meta-voting idea:
+The Round 2 final ensemble uses complete-source agreement, which is the implementation of the meta-voting idea:
 
-1. Start from a strong complete prediction produced by our audited probability-fusion pipeline.
+1. Start from a strong complete reference prediction produced by the audited probability/rule-fusion pipeline.
 2. Compare it with seven complete prediction arrays: five audited external model outputs and two local model-family outputs.
 3. Apply one global meta-voting rule: when at least six of seven complete sources agree on the alternative class, the final ensemble follows the agreement vote.
 
 This rule changes only a very small number of predictions relative to the stable reference prediction, but the rule itself is global and source-level: it is not a PassengerId list, label lookup, bitstring, single-row flip, or leaderboard probe.
 
-The final submitted file is:
+The top-level submitted package file is:
+
+`final_submission/submission_best_0p82277.csv`
+
+The reproducible file generated by `runnable_source/run_final_pipeline.ps1` is:
 
 `submission_final_model_ensemble_0p82277.csv`
 
@@ -114,7 +142,7 @@ Avoid presenting row-level edits, PassengerId corrections, or leaderboard probes
 
 ## External Support Signals
 
-Selected external prediction sources are used only as additional ensemble-level support signals rather than labels or direct replacements. These signals were treated as model predictions and were combined with our local OOF probability model only through global confidence and agreement rules.
+External prediction sources are a material part of the final consensus layer. These signals were treated as complete model predictions and were combined with the local/reference prediction system only through global confidence, disagreement, and agreement rules. They were not used as labels, direct row replacements, PassengerId-level corrections, bitstrings, single-row flips, or leaderboard probes.
 
 ## References
 

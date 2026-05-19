@@ -2,7 +2,12 @@
 
 ## 模型体系怎么讲
 
-最终方案可以讲成一个分层模型体系，而不是单一模型：
+最终方案建议讲成“两轮建模路线”，而不是单一模型：
+
+1. 第一轮：独立本地集成。我们自己做特征工程、训练表格模型、做 OOF 验证和投票集成，得到 Public LB 0.81318。
+2. 第二轮：模型级共识精炼。我们在合规参考公开方案的前提下，把选定公开方案的完整预测输出作为模型级 prediction source，再和本地/规则参考预测做 disagreement analysis 和 meta voting，最终 Public LB 是 0.82277。
+
+模型体系可以继续讲成分层 ensemble：
 
 1. XGBoost：主力表格模型之一，负责学习非线性特征交互。
 2. LightGBM：主力表格模型之一，训练效率高，提供另一组树模型概率。
@@ -12,13 +17,13 @@
 
 推荐表述：
 
-> 我们的最终模型不是单一分类器，而是以表格模型为主、深度学习为对照、规则 base 为稳定参考的分层 ensemble。XGB、LGB、CatBoost 提供主要概率判断，MLP 支线用于验证深度学习路线，Rule-based base model 把任务里的结构规律显式加入，最后通过模型级融合得到最终提交结果。
+> 我们的项目分成两轮。第一轮完全基于本地训练模型，使用 XGB、LGB、CatBoost 和投票集成，得到 0.81318 的本地模型结果。第二轮在老师允许参考公开方法的前提下，把选定公开方案的完整预测输出作为模型级共识信号，与我们的本地/规则参考预测进行全局融合，最终得到 0.82277。
 
 ## 三个最后阶段亮点
 
 ### Ensemble
 
-我们没有只依赖一个模型，而是组合多个模型族和完整预测源。这样可以减少单模型对某些特征或随机划分的依赖，提高预测稳定性。
+我们没有只依赖一个模型，而是组合本地模型族和完整预测源。这样可以减少单模型对某些特征或随机划分的依赖，提高预测稳定性。
 
 推荐关键词：ensemble robustness, heterogeneous models。
 
@@ -30,7 +35,7 @@
 
 ### Meta Voting
 
-最终层是一个二层投票器。它把多个完整预测数组当作模型级输入，采用 6/7 的全局投票规则：如果 7 个完整预测源中至少 6 个都支持与 base 不同的类别，最终预测才跟随这个共识。这个规则是全局的、模型级的，不是硬编码名单。
+最终层是一个二层投票器。它把多个完整预测数组当作模型级输入，采用 6/7 的全局投票规则：如果 7 个完整预测源中至少 6 个都支持与 base 不同的类别，最终预测才跟随这个共识。这个规则是全局的、模型级的，不是硬编码名单。需要注意的是，0.81318 是第一轮独立本地集成结果，0.82277 是第二轮 hybrid model-level consensus ensemble 的结果。
 
 推荐关键词：cross-model consensus, consensus-guided refinement。
 
@@ -48,13 +53,13 @@
 
 可以把这一部分放在模型方法的最后一节：
 
-1. 先讲特征工程和本地模型：XGB、LGB、CatBoost 等表格模型。
+1. 先讲第一轮独立本地集成：特征工程 + XGB/LGB/CatBoost + 本地投票，得到 0.81318。
 2. 再讲深度学习尝试：MLP/Transformer 作为支线，说明尝试过但没有超过最终集成。
 3. 接着讲 Rule-based base model：把任务结构规律转成稳定参考预测。
-4. 最后讲 Ensemble + Disagreement Analysis + Meta Voting：这是从本地模型到 0.82277 的最终融合策略。
+4. 最后讲第二轮 Ensemble + Disagreement Analysis + Meta Voting：这是在本地/规则参考预测基础上加入完整预测源共识层后得到 0.82277 的最终融合策略。
 
 ## 合规表达
 
-外部支持信号相关内容只建议在 Related Work 或 References 轻描淡写说明：
+外部完整预测源相关内容建议在 Related Work 或 References 简短说明，但不要说成“几乎没有贡献”。比较稳的说法是：
 
-> Selected external prediction sources are used only as additional ensemble-level support signals rather than labels or direct replacements. In our implementation, these signals are combined only through global voting and agreement rules, without PassengerId-level hardcoding, label overwrite, single-flip, or probe logic.
+> Selected external prediction sources are used as complete prediction arrays in the final model-level consensus layer rather than labels or direct row replacements. In our implementation, these signals are combined only through global voting and agreement rules, without PassengerId-level hardcoding, label overwrite, single-flip, or probe logic.

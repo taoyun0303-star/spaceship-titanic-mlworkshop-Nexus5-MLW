@@ -52,5 +52,5 @@ def test_final_v132_reproduction_matches_submitted_file():
     row_id_listing_column = "changed" + "_ids"
     assert row_id_listing_column not in summary.columns
     assert "compliance" in summary.columns
-    assert summary["compliance"].str.contains("complete local/public model", case=False).all()
+    assert summary["compliance"].str.contains("complete local/external model", case=False).all()
     assert summary.iloc[0]["file"] == "submission_final_model_ensemble_0p82277.csv"

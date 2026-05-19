@@ -12,8 +12,8 @@ RUN_DIR_NAME = "final_model_level_ensemble_0p82277"
 FINAL_FILE = "submission_final_model_ensemble_0p82277.csv"
 FINAL_SCORE = "0.82277"
 COMPLIANCE_NOTE = (
-    "complete local/public model prediction arrays plus global vote rules; "
-    "no PassengerId hardcoding, no label overwrite, no single-row probe"
+    "complete local/external model prediction arrays plus global vote rules; "
+    "no PassengerId hardcoding, no label overwrite, no direct row replacement, no single-row probe"
 )
 
 
@@ -223,7 +223,7 @@ def build_candidates(project_root: Path) -> pd.DataFrame:
     (run_dir / "run_metadata.json").write_text(
         json.dumps(
             {
-                "method": "local OOF probability model plus complete-source model-level agreement",
+                "method": "audited reference prediction plus complete-source model-level consensus",
                 "final_file": FINAL_FILE,
                 "final_public_lb": FINAL_SCORE,
                 "n_candidates": int(len(summary)),
