@@ -1,0 +1,70 @@
+Device: cuda
+n_features = 90
+seed=42 fold=0 acc=0.80564 logloss=0.39721
+seed=42 fold=1 acc=0.82346 logloss=0.38272
+seed=42 fold=2 acc=0.82001 logloss=0.40305
+seed=42 fold=3 acc=0.81300 logloss=0.39521
+seed=42 fold=4 acc=0.81588 logloss=0.40536
+seed=42 oof_acc=0.81560
+seed=2024 fold=0 acc=0.82174 logloss=0.39251
+seed=2024 fold=1 acc=0.80265 logloss=0.40306
+seed=2024 fold=2 acc=0.81254 logloss=0.39437
+seed=2024 fold=3 acc=0.80783 logloss=0.41188
+seed=2024 fold=4 acc=0.81599 logloss=0.39395
+seed=2024 oof_acc=0.81215
+seed=2026 fold=0 acc=0.81991 logloss=0.38575
+seed=2026 fold=1 acc=0.81530 logloss=0.39749
+seed=2026 fold=2 acc=0.80898 logloss=0.40899
+seed=2026 fold=3 acc=0.81829 logloss=0.39686
+seed=2026 fold=4 acc=0.80230 logloss=0.42505
+seed=2026 oof_acc=0.81295
+seed=3407 fold=0 acc=0.79758 logloss=0.43471
+seed=3407 fold=1 acc=0.81081 logloss=0.40743
+seed=3407 fold=2 acc=0.81530 logloss=0.39908
+seed=3407 fold=3 acc=0.81185 logloss=0.40622
+seed=3407 fold=4 acc=0.81771 logloss=0.39400
+seed=3407 oof_acc=0.81065
+seed=777 fold=0 acc=0.82911 logloss=0.38372
+seed=777 fold=1 acc=0.80966 logloss=0.40629
+seed=777 fold=2 acc=0.81933 logloss=0.39117
+seed=777 fold=3 acc=0.80495 logloss=0.41485
+seed=777 fold=4 acc=0.80345 logloss=0.40716
+seed=777 oof_acc=0.81330
+seed=999 fold=0 acc=0.81333 logloss=0.39547
+seed=999 fold=1 acc=0.81829 logloss=0.38858
+seed=999 fold=2 acc=0.81174 logloss=0.40635
+seed=999 fold=3 acc=0.81358 logloss=0.40592
+seed=999 fold=4 acc=0.81588 logloss=0.40711
+seed=999 oof_acc=0.81456
+seed=2023 fold=0 acc=0.81139 logloss=0.40883
+seed=2023 fold=1 acc=0.81599 logloss=0.40763
+seed=2023 fold=2 acc=0.82691 logloss=0.37352
+seed=2023 fold=3 acc=0.80610 logloss=0.40755
+seed=2023 fold=4 acc=0.81243 logloss=0.41449
+seed=2023 oof_acc=0.81456
+seed=88 fold=0 acc=0.81013 logloss=0.41367
+seed=88 fold=1 acc=0.80955 logloss=0.41836
+seed=88 fold=2 acc=0.81070 logloss=0.41555
+seed=88 fold=3 acc=0.81484 logloss=0.40428
+seed=88 fold=4 acc=0.81207 logloss=0.39660
+seed=88 oof_acc=0.81146
+
+Final DL OOF acc=0.81261  logloss=0.39463
+Best blend: w_dl=0.09  acc=0.81893
+{
+  "version": "improved",
+  "device": "cuda",
+  "n_features": 90,
+  "n_seeds": 8,
+  "folds": 5,
+  "epochs": 150,
+  "mixup_alpha": 0.2,
+  "label_smooth": 0.03,
+  "dl_oof_acc": 0.8126078453928448,
+  "dl_oof_logloss": 0.3946314366436485,
+  "dl_test_true_rate": 0.5230301613280337,
+  "best_blend": {
+    "w_dl": 0.09,
+    "acc": 0.8189347751064074
+  }
+}

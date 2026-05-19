@@ -1,5 +1,5 @@
 {
-  "elapsed_seconds": 219.938246011734,
+  "elapsed_seconds": 99.31998133659363,
   "models": [
     "extra_trees",
     "hist_gb",
@@ -7,9 +7,9 @@
     "lgb",
     "cat"
   ],
-  "cv_accuracy": 0.8173242839065915,
-  "threshold": 0.5025,
-  "stack_weight": 0.8,
+  "cv_accuracy": 0.8100770735074198,
+  "threshold": 0.5675,
+  "stack_weight": 0.7000000000000002,
   "xgboost_available": true,
   "lightgbm_available": true,
   "catboost_available": true,

@@ -1,0 +1,7 @@
+{
+  "method": "local OOF probability model plus complete-source model-level agreement",
+  "final_file": "submission_final_model_ensemble_0p82277.csv",
+  "final_public_lb": "0.82277",
+  "n_candidates": 3,
+  "compliance": "complete local/public model prediction arrays plus global vote rules; no PassengerId hardcoding, no label overwrite, no single-row probe"
+}

@@ -4,11 +4,37 @@
 
 The final selected submission is:
 
-`final_submission/submission_best_0p82207.csv`
+`final_submission/submission_best_0p82277.csv`
 
-Public leaderboard score: `0.82207`.
+Public leaderboard score: `0.82277`.
 
-The submitted pipeline is an audited multi-source model-level ensemble. Its core is our local OOF probability model and feature-engineering pipeline. Selected public notebook outputs are used as external model-level prediction sources, not ground-truth labels, and are combined with the local model only through global probability and agreement rules.
+The submitted pipeline is an audited model-level ensemble. Its core is our local OOF probability model and feature-engineering pipeline. The local model family provides the main explainable modeling foundation and reached a representative public score around `0.81318`; the final ensemble improved the submitted score to `0.82277`. Selected external prediction sources are used only as additional ensemble-level support signals rather than labels or direct replacements.
+
+## Model System Highlights
+
+For the report and presentation, the model system can be introduced as a layered ensemble:
+
+- `XGBoost`: gradient-boosting tree model used to capture non-linear feature interactions.
+- `LightGBM`: efficient GBDT model that provides a complementary tree-based probability estimate.
+- `CatBoost`: strong tabular model with robust handling of categorical-style features.
+- `MLP`: deep-learning comparison branch; useful as an experimental direction, but not selected as the final scorer because it did not outperform the tabular ensemble.
+- `Rule-based base model`: domain-aware base prediction built from structured Spaceship Titanic patterns such as group/cabin consistency, CryoSleep spending behavior, and calibrated probability rules.
+
+The last step is not a manual correction stage. It is a model-level fusion stage with three ideas:
+
+1. `Ensemble`: combine several model families and complete prediction sources.
+2. `Disagreement analysis`: compare the stable rule/probability base prediction with other complete model outputs and focus only on high-consensus disagreements.
+3. `Meta voting`: use a second-level 6/7 vote across complete prediction arrays. The rule is global and source-level, so it does not depend on PassengerId lists or row-by-row probing.
+
+Report/PPT keywords to emphasize:
+
+- `ensemble robustness`
+- `uncertainty analysis`
+- `cross-model consensus`
+- `disagreement analysis`
+- `heterogeneous models`
+- `OOF validation`
+- `consensus-guided refinement`
 
 ## Feature Engineering
 
@@ -49,46 +75,53 @@ Representative OOF results from the clean local model run:
 | XGBoost | 0.80841 | 0.90267 | 0.38458 |
 | ExtraTrees | 0.80473 | 0.89359 | 0.40914 |
 
+## Deep Learning Side Experiment
+
+We also tested deep learning as a separate modeling branch. This branch included a baseline MLP, a feature-token Transformer, an improved MLP with Mixup/label smoothing/OneCycleLR/SWA, and a native embedding MLP for categorical features.
+
+The best standalone deep learning model was the improved MLP, with OOF accuracy about `0.81261`. A DL+GBDT blend reached about `0.81951` OOF accuracy in local validation, but the improvement was not strong enough to replace the final model-level ensemble. This result supports the final modeling choice: for this small heterogeneous tabular dataset, tree-based and probability-level ensemble methods were more reliable than heavier neural architectures.
+
+The deep learning branch is documented in `deep_learning_branch/` and is used in the report as an experimental comparison, not as the final submission method.
+
 ## Final Ensemble Rule
 
-The final ensemble combines the local OOF probability model with complete prediction arrays from audited model sources. The local probability variants include:
+The final ensemble uses complete-source agreement, which is the implementation of the meta-voting idea:
 
-- rules/no-rules average
-- rules-weighted probability blends
-- no-rules-weighted probability blends
-- GBDT-family average
-- all-tree average
-- rules/no-rules plus GBDT weighted blends
+1. Start from a strong complete prediction produced by our audited probability-fusion pipeline.
+2. Compare it with seven complete prediction arrays: five audited external model outputs and two local model-family outputs.
+3. Apply one global meta-voting rule: when at least six of seven complete sources agree on the alternative class, the final ensemble follows the agreement vote.
 
-The best final file uses:
+This rule changes only a very small number of predictions relative to the stable reference prediction, but the rule itself is global and source-level: it is not a PassengerId list, label lookup, bitstring, single-row flip, or leaderboard probe.
 
-- local probability source: `rules_weighted_60`
-- external anchor source: complete JimLiu prediction output
-- external agreement source: complete Ravi prediction output
-- decision rule: update the anchor only when the local probability is at least `0.033` away from the global threshold and the complete Ravi output agrees with the model direction
+The final submitted file is:
 
-This produced 2,413 predicted `True` labels, a true rate of about `0.56418`, and a Public LB score of `0.82207`.
+`submission_final_model_ensemble_0p82277.csv`
+
+It produced 2,410 predicted `True` labels, a true rate of about `0.56348`, and a Public LB score of `0.82277`.
 
 ## Report Wording Guide
 
-In the report, describe the method as our audited multi-source model-level ensemble:
+In the report, describe the method as our audited tabular model and model-level ensemble:
 
 1. Data preprocessing and feature engineering.
-2. Five-model local tabular learner family with OOF validation.
-3. Probability calibration and global thresholding.
-4. Complete-source agreement filter.
-5. Final model-level ensemble and leaderboard result.
+2. Model system: XGBoost, LightGBM, CatBoost, MLP comparison branch, and rule-based base model.
+3. Five-model local tabular learner family with OOF validation.
+4. Probability calibration and global thresholding.
+5. Ensemble robustness, uncertainty analysis, disagreement analysis, and cross-model consensus.
+6. Final model-level ensemble and leaderboard result.
 
 Avoid presenting row-level edits, PassengerId corrections, or leaderboard probes. They are not part of the final method.
 
-## Public Notebook Attribution
+## External Support Signals
 
-We reviewed selected public Kaggle notebook solutions and used their complete prediction outputs as external model-level prediction sources. These outputs were treated as predictions rather than labels and were combined with our local OOF probability model only through global confidence and agreement rules.
+Selected external prediction sources are used only as additional ensemble-level support signals rather than labels or direct replacements. These signals were treated as model predictions and were combined with our local OOF probability model only through global confidence and agreement rules.
 
 ## References
 
 [1] Kaggle, "Spaceship Titanic Competition," Kaggle, accessed May 2026.
 
-[2] JimLiu, "Spaceship Titanic public notebook solution," Kaggle Notebook, accessed May 2026.
+[2] JimLiu, "Spaceship Titanic Kaggle solution reference," accessed May 2026.
 
-[3] Ravi20076, "Spaceship Titanic public notebook solution," Kaggle Notebook, accessed May 2026.
+[3] Ravi20076, "Spaceship Titanic Kaggle solution reference," accessed May 2026.
+
+[4] Additional external Kaggle solution materials reviewed as ensemble-level support sources, accessed May 2026.

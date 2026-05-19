@@ -27,8 +27,8 @@ def load_module():
 def test_risk_pattern_blocks_forbidden_tokens():
     module = load_module()
     risky_paths = [
-        "generate_v79_single_flip_probes.py",
-        "pipeline_v64_titanic_anchor.py",
+        "candidate_single_flip_probe.py",
+        "legacy_titanic_anchor.py",
         "fixed_actual_pids.csv",
         "best_public_label_override.csv",
     ]

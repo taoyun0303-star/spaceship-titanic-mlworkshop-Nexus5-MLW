@@ -23,5 +23,5 @@
   "n_candidates": 3,
   "all_valid": true,
   "compliance": "complete model outputs and global OOF probability rules only; no PassengerId hardcoding; no leaderboard-derived row fixes",
-  "elapsed_seconds": 10.515
+  "elapsed_seconds": 23.966
 }

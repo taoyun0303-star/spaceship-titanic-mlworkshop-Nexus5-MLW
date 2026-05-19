@@ -1,0 +1,103 @@
+Device: cuda
+类别特征: 6 个 (cardinalities: [3, 4, 3, 4, 8, 2])
+数值特征: 21 个
+  Age
+  RoomService
+  FoodCourt
+  ShoppingMall
+  Spa
+  VRDeck
+  GroupSize
+  CabinNum
+  Log_RoomService
+  Log_FoodCourt
+  Log_ShoppingMall
+  Log_Spa
+  Log_VRDeck
+  TotalSpend
+  Log_TotalSpend
+  LuxurySpend
+  Log_LuxurySpend
+  BasicSpend
+  Log_BasicSpend
+  LogSpendPerAge
+  Deck_CabinNum
+seed=42 fold=0 acc=0.79241 logloss=0.41796
+seed=42 fold=1 acc=0.81254 logloss=0.40169
+seed=42 fold=2 acc=0.80621 logloss=0.42895
+seed=42 fold=3 acc=0.80092 logloss=0.42512
+seed=42 fold=4 acc=0.80035 logloss=0.42478
+seed=42 oof_acc=0.80248
+seed=2024 fold=0 acc=0.81024 logloss=0.41771
+seed=2024 fold=1 acc=0.80092 logloss=0.42332
+seed=2024 fold=2 acc=0.79758 logloss=0.42060
+seed=2024 fold=3 acc=0.80725 logloss=0.42339
+seed=2024 fold=4 acc=0.80564 logloss=0.40499
+seed=2024 oof_acc=0.80433
+seed=2026 fold=0 acc=0.80955 logloss=0.40424
+seed=2026 fold=1 acc=0.79229 logloss=0.42794
+seed=2026 fold=2 acc=0.79287 logloss=0.44105
+seed=2026 fold=3 acc=0.81254 logloss=0.40682
+seed=2026 fold=4 acc=0.80517 logloss=0.42502
+seed=2026 oof_acc=0.80248
+seed=3407 fold=0 acc=0.78723 logloss=0.44423
+seed=3407 fold=1 acc=0.80334 logloss=0.41762
+seed=3407 fold=2 acc=0.80207 logloss=0.41372
+seed=3407 fold=3 acc=0.80610 logloss=0.41446
+seed=3407 fold=4 acc=0.80679 logloss=0.41244
+seed=3407 oof_acc=0.80110
+seed=777 fold=0 acc=0.81646 logloss=0.40647
+seed=777 fold=1 acc=0.79816 logloss=0.42514
+seed=777 fold=2 acc=0.80955 logloss=0.39988
+seed=777 fold=3 acc=0.78999 logloss=0.44399
+seed=777 fold=4 acc=0.80402 logloss=0.41682
+seed=777 oof_acc=0.80364
+seed=999 fold=0 acc=0.80758 logloss=0.41099
+seed=999 fold=1 acc=0.81254 logloss=0.40506
+seed=999 fold=2 acc=0.80081 logloss=0.41827
+seed=999 fold=3 acc=0.79862 logloss=0.43777
+seed=999 fold=4 acc=0.79919 logloss=0.42497
+seed=999 oof_acc=0.80375
+seed=2023 fold=0 acc=0.80219 logloss=0.42106
+seed=2023 fold=1 acc=0.80851 logloss=0.41477
+seed=2023 fold=2 acc=0.81024 logloss=0.40984
+seed=2023 fold=3 acc=0.80552 logloss=0.42123
+seed=2023 fold=4 acc=0.79977 logloss=0.43109
+seed=2023 oof_acc=0.80525
+seed=88 fold=0 acc=0.80610 logloss=0.42637
+seed=88 fold=1 acc=0.79229 logloss=0.42637
+seed=88 fold=2 acc=0.80783 logloss=0.40577
+seed=88 fold=3 acc=0.80621 logloss=0.42406
+seed=88 fold=4 acc=0.80000 logloss=0.42041
+seed=88 oof_acc=0.80248
+
+Final DL OOF acc=0.80651  logloss=0.41360
+Best blend: w_dl=0.16  acc=0.81870
+{
+  "version": "native_embedding",
+  "cat_cardinalities": [
+    3,
+    4,
+    3,
+    4,
+    8,
+    2
+  ],
+  "n_cat": 6,
+  "n_num": 21,
+  "emb_dim": 16,
+  "hidden": [
+    256,
+    128,
+    64
+  ],
+  "n_seeds": 8,
+  "folds": 5,
+  "epochs": 250,
+  "dl_oof_acc": 0.8065109858506845,
+  "dl_oof_logloss": 0.4135966700649846,
+  "best_blend": {
+    "w_dl": 0.16,
+    "acc": 0.8187047049350051
+  }
+}

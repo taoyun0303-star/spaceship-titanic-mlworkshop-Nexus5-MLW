@@ -1,7 +1,0 @@
-label,path,valid,score,true_rate,reason
-jimliu_081669,04_实验输出/public_notebook_outputs/jimliu_081669/submission.csv,True,0.81669,0.5391629646948796,
-ravi20076_v2,04_实验输出/public_notebook_outputs/ravi20076_submission_v2/submission.csv,True,0.81669,0.6004208557400047,
-jimmyyeung_xgb_top5,04_实验输出/public_notebook_outputs/jimmyyeung_xgb_top5/submission.csv,True,0.81505,0.5351882160392799,
-guanlintao_xgb,04_实验输出/public_notebook_outputs/guanlintao_0814_xgb/Submission_XGB.csv,True,0.814,0.5312134673836801,
-v108_core5_need5_ft,04_实验输出/v108_jimliu_clean_model_overlays_nohardcode/submission_v108_pub2_core5_need5_ft.csv,True,0.81646,0.5459434182838439,
-v109_cryo_nospend_me,04_实验输出/v109_clean_feature_rule_overlays_nohardcode/submission_v109_jimliu_cryo_nospend_me_nontrap_settrue.csv,True,0.81599,0.5398643909282207,

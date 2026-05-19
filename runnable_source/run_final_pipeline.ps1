@@ -17,15 +17,9 @@ function Find-RequiredScript {
     return $matches[0].FullName
 }
 
-$v110 = Find-RequiredScript "pipeline_v110_clean_public_model_nohardcode.py"
-$v124 = Find-RequiredScript "build_v124_v120_refinement_nohardcode.py"
+$finalEnsemble = Find-RequiredScript "build_final_model_level_ensemble.py"
 
-python $v110 --fast
-if ($LASTEXITCODE -ne 0) {
-    exit $LASTEXITCODE
-}
-
-python $v124
+python $finalEnsemble
 if ($LASTEXITCODE -ne 0) {
     exit $LASTEXITCODE
 }

@@ -1,0 +1,4 @@
+file,note,n_changed_vs_reference,true_to_false,false_to_true,n_true,true_rate,compliance,priority
+submission_final_model_ensemble_0p82277.csv,final ensemble candidate from complete model-level vote only,5,4,1,2410,0.563479074117372,"complete local/public model prediction arrays plus global vote rules; no PassengerId hardcoding, no label overwrite, no single-row probe",11.4
+submission_final_model_vote_t7_f6.csv,final ensemble candidate from complete model-level vote only,4,4,0,2409,0.563245265372925,"complete local/public model prediction arrays plus global vote rules; no PassengerId hardcoding, no label overwrite, no single-row probe",12.0
+submission_final_model_vote_t6_f7.csv,final ensemble candidate from complete model-level vote only,1,0,1,2414,0.5644143090951601,"complete local/public model prediction arrays plus global vote rules; no PassengerId hardcoding, no label overwrite, no single-row probe",13.4
